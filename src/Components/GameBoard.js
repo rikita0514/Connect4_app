@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-import "./styles/game.css";
+import "../styles/game.css";
 
 import Header from "./header";
 import Footer from "./footer";
 import GameCircle from "./GameCircle";
 
-import { isDraw, isWinner, getComputerMoves } from "./utils/helper";
+import { isDraw, isWinner, getComputerMoves } from "../utils/helper";
 
 import {
   GAME_STATE_PLAYING,
