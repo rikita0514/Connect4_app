@@ -16,7 +16,7 @@ import {
   PLAYER_1,
   PLAYER_2,
   NO_CIRCLES,
-} from "./Constants";
+} from "../Constants";
 
 const GameBoard = () => {
   const [gameBoard, setGameBoard] = useState(
