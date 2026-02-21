@@ -1,20 +1,22 @@
 import React from "react";
+import { GAME_STATE_PLAYING } from "../Constants";
 
-import { GAME_STATE_PLAYING} from "../Constants";
+const Footer = ({ onNewGameClick, onSuggestClick, gameState }) => {
+  const isPlaying = gameState === GAME_STATE_PLAYING;
 
-const Footer = ({onNewGameClick, onSuggestClick,gameState}) =>{
-    const renderButtons = () => {
-        if (gameState=== GAME_STATE_PLAYING){
-            return <button onClick={onSuggestClick}>Suggest</button>
-        }
-        return <button onClick={onNewGameClick}>New Game</button>
-    }
-
-    return (
+  return (
     <div className="panel footer">
-        {renderButtons()}
+      {isPlaying ? (
+        <button type="button" onClick={onSuggestClick}>
+          Suggest
+        </button>
+      ) : (
+        <button type="button" onClick={onNewGameClick}>
+          New Game
+        </button>
+      )}
     </div>
-    );
+  );
 };
 
 export default Footer;
