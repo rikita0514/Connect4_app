@@ -1,14 +1,14 @@
 import React,{useEffect, useState} from "react";
 
-import '../game.css';
+import './styles/game.css';
 
-import Header from "./header";
+import Header from "./Components/header";
 
-import Footer from "./footer";
+import Footer from "./Components/footer";
 
-import GameCircle from "./GameCircle";
+import GameCircle from "./Components/GameCircle";
 
-import { isDraw, isWinner, getComputerMoves } from "../helper";
+import { isDraw, isWinner, getComputerMoves } from "./utils/helper";
 
 import { GAME_STATE_PLAYING, 
     GAME_STATE_WIN,
@@ -16,13 +16,14 @@ import { GAME_STATE_PLAYING,
     PLAYER_1, 
     PLAYER_2,
     NO_CIRCLES, 
-    GAME_STATE_DRAW} from "../Constants";
+    GAME_STATE_DRAW} from "./Constants";
 
 const GameBoard = () =>{
     const [gameBoard, setgameBoard] = useState(Array(NO_CIRCLES).fill(NO_PLAYER));
     const [currentPlayer, setcurrentPlayer] = useState(PLAYER_1);
     const [gameState, setGameState]= useState(GAME_STATE_PLAYING);
     const [winPlayer, setwinPlayer]= useState(NO_PLAYER);
+    const [score, setScore] = useState({ player1: 0, player2: 0 });
 
     console.log(gameBoard);
 
@@ -58,12 +59,23 @@ const GameBoard = () =>{
         if(isWinner(gameBoard, id, currentPlayer)){
             setGameState(GAME_STATE_WIN);
             setwinPlayer(currentPlayer);
+
+            if(currentPlayer === PLAYER_1){
+                setScore(prev => ({ ...prev, player1: prev.player1 + 1 }));
+                } else {
+                setScore(prev => ({ ...prev, player2: prev.player2 + 1 }));
+                }
         }
 
         if(isDraw(gameBoard, id, currentPlayer)){
             setGameState(GAME_STATE_DRAW);
-            setwinPlayer(currentPlayer);
+            setwinPlayer(NO_PLAYER);
         }
+
+        <div className="scoreBoard">
+        <h3>Player 1: {score.player1}</h3>
+        <h3>Player 2: {score.player2}</h3>
+        </div>
 
         setgameBoard(prev =>{
             return prev.map((circle,pos) =>{
