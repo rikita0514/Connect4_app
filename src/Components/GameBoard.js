@@ -32,9 +32,10 @@ const GameBoard = () =>{
     }, [])
 
     const initGame = () => {
-        setgameBoard(Array(NO_CIRCLES).fill(NO_PLAYER));
-        setcurrentPlayer(PLAYER_1);
-        setGameState(GAME_STATE_PLAYING);
+    setgameBoard(Array(NO_CIRCLES).fill(NO_PLAYER));
+    setcurrentPlayer(PLAYER_1);
+    setGameState(GAME_STATE_PLAYING);
+    setwinPlayer(NO_PLAYER);
         }
 
     const initBoard =() =>{
