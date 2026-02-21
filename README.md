@@ -19,7 +19,7 @@ Features dynamic game logic, AI-based move suggestions, and clean responsive UI 
 
 ## 🛠 Tech Stack
 
-- React (Functional Components + Hooks)
+- React (Functional Components )
 - JavaScript (ES6+)
 - CSS Grid & Flexbox
 - Create React App
@@ -51,7 +51,6 @@ src/
 The game checks all possible:
 - Horizontal lines
 - Vertical lines
-- Diagonal lines
 
 If 4 consecutive cells match, a win is declared.
 
@@ -92,7 +91,8 @@ The app will run at:http://localhost:3000
 
 ## 📸 Preview
 
-(Add a screenshot here once deployed)
+<img width="1233" height="768" alt="image" src="https://github.com/user-attachments/assets/5fb205ec-8aaa-4043-97ee-fdb2e0d7c117" />
+
 
 ---
 
