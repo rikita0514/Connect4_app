@@ -1,108 +1,124 @@
-import React,{useEffect, useState} from "react";
+import React, { useState } from "react";
 
-import './styles/game.css';
+import "./styles/game.css";
 
 import Header from "./Components/header";
-
 import Footer from "./Components/footer";
-
 import GameCircle from "./Components/GameCircle";
 
 import { isDraw, isWinner, getComputerMoves } from "./utils/helper";
 
-import { GAME_STATE_PLAYING, 
-    GAME_STATE_WIN,
-    NO_PLAYER, 
-    PLAYER_1, 
-    PLAYER_2,
-    NO_CIRCLES, 
-    GAME_STATE_DRAW} from "./Constants";
+import {
+  GAME_STATE_PLAYING,
+  GAME_STATE_WIN,
+  GAME_STATE_DRAW,
+  NO_PLAYER,
+  PLAYER_1,
+  PLAYER_2,
+  NO_CIRCLES,
+} from "./Constants";
 
-const GameBoard = () =>{
-    const [gameBoard, setgameBoard] = useState(Array(NO_CIRCLES).fill(NO_PLAYER));
-    const [currentPlayer, setcurrentPlayer] = useState(PLAYER_1);
-    const [gameState, setGameState]= useState(GAME_STATE_PLAYING);
-    const [winPlayer, setwinPlayer]= useState(NO_PLAYER);
-    const [score, setScore] = useState({ player1: 0, player2: 0 });
+const GameBoard = () => {
+  const [gameBoard, setGameBoard] = useState(
+    Array(NO_CIRCLES).fill(NO_PLAYER)
+  );
+  const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
+  const [gameState, setGameState] = useState(GAME_STATE_PLAYING);
+  const [winPlayer, setWinPlayer] = useState(NO_PLAYER);
+  const [score, setScore] = useState({ player1: 0, player2: 0 });
 
-    console.log(gameBoard);
-
-    useEffect(() => {
-        initGame()
-    }, [])
-
-    const initGame = () => {
-    setgameBoard(Array(NO_CIRCLES).fill(NO_PLAYER));
-    setcurrentPlayer(PLAYER_1);
+  const initGame = () => {
+    setGameBoard(Array(NO_CIRCLES).fill(NO_PLAYER));
+    setCurrentPlayer(PLAYER_1);
     setGameState(GAME_STATE_PLAYING);
-    setwinPlayer(NO_PLAYER);
-        }
+    setWinPlayer(NO_PLAYER);
+  };
 
-    const initBoard =() =>{
-        const circles =[];
+  const circleClicked = (id) => {
+    if (gameBoard[id] !== NO_PLAYER) return;
+    if (gameState !== GAME_STATE_PLAYING) return;
 
-        for(let i=0;i<NO_CIRCLES;i++){
-            circles.push(renderCircle(i));
-        }
-        return circles;
+    // Create updated board
+    const newBoard = gameBoard.map((circle, pos) =>
+      pos === id ? currentPlayer : circle
+    );
+
+    setGameBoard(newBoard);
+
+    // Check winner
+    if (isWinner(newBoard, id, currentPlayer)) {
+      setGameState(GAME_STATE_WIN);
+      setWinPlayer(currentPlayer);
+
+      setScore((prev) =>
+        currentPlayer === PLAYER_1
+          ? { ...prev, player1: prev.player1 + 1 }
+          : { ...prev, player2: prev.player2 + 1 }
+      );
+
+      return;
     }
 
-    const suggestMove= () =>{
-        circleClicked(getComputerMoves(gameBoard));
+    // Check draw
+    if (isDraw(newBoard)) {
+      setGameState(GAME_STATE_DRAW);
+      return;
     }
 
-    const circleClicked= (id) => {
-        console.log("Circle clicked:" +id);
+    // Switch player
+    setCurrentPlayer(
+      currentPlayer === PLAYER_1 ? PLAYER_2 : PLAYER_1
+    );
+  };
 
-        if(gameBoard[id]!== NO_PLAYER)return;
-        if(gameState !== GAME_STATE_PLAYING)return;
+  const suggestMove = () => {
+    const suggestedMove = getComputerMoves(gameBoard);
+    if (suggestedMove !== null && suggestedMove !== undefined) {
+      circleClicked(suggestedMove);
+    }
+  };
 
-        if(isWinner(gameBoard, id, currentPlayer)){
-            setGameState(GAME_STATE_WIN);
-            setwinPlayer(currentPlayer);
+  const renderCircle = (id) => {
+    return (
+      <GameCircle
+        key={id}
+        id={id}
+        className={`player_${gameBoard[id]}`}
+        onCircleClicked={circleClicked}
+      />
+    );
+  };
 
-            if(currentPlayer === PLAYER_1){
-                setScore(prev => ({ ...prev, player1: prev.player1 + 1 }));
-                } else {
-                setScore(prev => ({ ...prev, player2: prev.player2 + 1 }));
-                }
-        }
+  const initBoard = () => {
+    const circles = [];
+    for (let i = 0; i < NO_CIRCLES; i++) {
+      circles.push(renderCircle(i));
+    }
+    return circles;
+  };
 
-        if(isDraw(gameBoard, id, currentPlayer)){
-            setGameState(GAME_STATE_DRAW);
-            setwinPlayer(NO_PLAYER);
-        }
+  return (
+    <>
+      <Header
+        gameState={gameState}
+        currentPlayer={currentPlayer}
+        winPlayer={winPlayer}
+      />
 
-        <div className="scoreBoard">
+      <div className="scoreBoard">
         <h3>Player 1: {score.player1}</h3>
         <h3>Player 2: {score.player2}</h3>
-        </div>
+      </div>
 
-        setgameBoard(prev =>{
-            return prev.map((circle,pos) =>{
-                if(pos===id) return currentPlayer
-                return circle;
-            })
-        })
+      <div className="gameBoard">{initBoard()}</div>
 
-        setcurrentPlayer(currentPlayer===PLAYER_1?PLAYER_2:PLAYER_1);
-
-        console.log(gameBoard);
-        console.log(currentPlayer);
-    }
-    
-    const renderCircle= id =>{
-        return <GameCircle key={id} id={id} className={`player_${gameBoard[id]}`} onCircleClicked={circleClicked}/>
-    }
-
-    return (
-        <>
-            <Header gameState={gameState} currentPlayer={currentPlayer} winPlayer={winPlayer}/>
-            <div className="gameBoard">{initBoard()}</div>
-            <Footer onNewGameClick={initGame} onSuggestClick={suggestMove} gameState={gameState}/>
-        </>
-       
-    );
+      <Footer
+        onNewGameClick={initGame}
+        onSuggestClick={suggestMove}
+        gameState={gameState}
+      />
+    </>
+  );
 };
 
 export default GameBoard;
