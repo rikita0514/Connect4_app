@@ -1,8 +1,8 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Connect4",
+  "name": "Connect 4 – Interactive React Game",
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#740561",
+  "background_color": "#a4f8f4"
 }
