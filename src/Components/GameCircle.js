@@ -1,14 +1,24 @@
-import React from "react"
+import React from "react";
+import "../styles/game.css"; // make sure path is correct
 
-import '../game.css';
+const GameCircle = ({ id, children, className = "", onCircleClicked }) => {
 
-const GameCircle = ({id, children,className, onCircleClicked}) => {
+  const handleClick = () => {
+    if (onCircleClicked) {
+      onCircleClicked(id);
+    }
+  };
 
-    return(
-        <div className={`gameCircle ${className}`} onClick={() => onCircleClicked(id)}>
-            {children}
-        </div>
-    )
-}
+  return (
+    <div
+      className={`gameCircle ${className}`}
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+    >
+      {children}
+    </div>
+  );
+};
 
 export default GameCircle;
