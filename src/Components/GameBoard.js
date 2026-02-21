@@ -8,7 +8,7 @@ import Footer from "./footer";
 
 import GameCircle from "./GameCircle";
 
-import { isDraw, isWinner, getComputerMoves } from "../util/helper";
+import { isDraw, isWinner, getComputerMoves } from "../utils/helper";
 
 import { GAME_STATE_PLAYING, 
     GAME_STATE_WIN,
