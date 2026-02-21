@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from "react";
 
-import '../game.css';
+import '../style/game.css';
 
 import Header from "./header";
 
@@ -8,7 +8,7 @@ import Footer from "./footer";
 
 import GameCircle from "./GameCircle";
 
-import { isDraw, isWinner, getComputerMoves } from "../helper";
+import { isDraw, isWinner, getComputerMoves } from "../util/helper";
 
 import { GAME_STATE_PLAYING, 
     GAME_STATE_WIN,
