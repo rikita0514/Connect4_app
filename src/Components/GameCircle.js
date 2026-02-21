@@ -1,6 +1,6 @@
 import React from "react"
 
-import '../game.css';
+import '../style/game.css';
 
 const GameCircle = ({id, children,className, onCircleClicked}) => {
 
