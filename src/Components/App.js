@@ -1,6 +1,6 @@
 import React from "react";
 
-import GameBoard from "./Components/GameBoard";
+import GameBoard from "./GameBoard";
 
 function App(){
     return (
